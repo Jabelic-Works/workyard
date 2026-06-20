@@ -39,4 +39,4 @@ This repository is in early design. The initial goal is to define the operating 
 
 ## License
 
-The license has not been selected yet.
+MIT License. See [LICENSE](LICENSE).
