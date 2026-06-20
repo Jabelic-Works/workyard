@@ -22,6 +22,10 @@ This repository is in early design. The initial goal is to define the operating 
 - Prefer explicit catalogs and checks over relying on an agent to infer engineering standards from scattered context.
 - Make local state disposable. Generated clones, worktrees, run logs, and scratch files belong under `.local/`.
 
+## Documentation
+
+- [ユビキタス言語](docs/ubiquitous-language.md)
+
 ## Repository Layout
 
 ```text
