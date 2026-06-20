@@ -1,14 +1,14 @@
 # Operating Model
 
-Workyard separates three concerns:
+Workyardは3つの関心を分ける。
 
-1. The repositories being changed.
-2. The agent-readable knowledge used during work.
-3. The local execution state for each task.
+1. 変更対象のrepository。
+2. 作業中にagentが読むknowledge。
+3. taskごとに生成されるlocal execution state。
 
 ## Local State
 
-All disposable local state belongs under `.local/`.
+User Workspaceでは、disposableなlocal stateを `.local/` に置く。
 
 ```text
 .local/
@@ -18,21 +18,27 @@ All disposable local state belongs under `.local/`.
 └── scratch/
 ```
 
-This keeps the Workyard repository itself small and reviewable while allowing many target repositories and task worktrees to exist side by side.
+これにより、多数のtarget repositoryやtask worktreeを並べても、Workyard RepositoryやUser Workspaceのtracked fileにlocal stateを混ぜずに済む。
 
 ## Progressive Workflow
 
-1. Define the task in `tasks/` or a GitHub issue.
-2. Identify the target repository or repositories.
-3. Create or reuse local clones under `.local/repos/`.
-4. Create task-specific worktrees under `.local/worktrees/`.
-5. Select relevant catalog entries, prompts, runtime profile, and MCP profile.
-6. Run the agent.
-7. Verify the target repositories with their own checks.
-8. Summarize outputs and next actions.
+1. GitHub issue、local note、user requestなどからtaskを決める。
+2. target repositoryを特定する。
+3. `.local/repos/` にrepository cloneを作る、または再利用する。
+4. `.local/worktrees/` にtask worktreeを作る。
+5. 必要なcatalog、prompt、runtime profile、MCP profile、pluginを選ぶ。
+6. agentを実行する。
+7. target repository自身のcheckで検証する。
+8. 結果と次のactionをまとめる。
 
 ## Catalog First
 
-Agent behavior should be guided by explicit catalog entries instead of implicit assumptions.
+Agent behaviorは、散らばったcontextから推測させるのではなく、明示的なcatalog entryで導く。
 
-Catalog entries can describe stacks, layers, patterns, and verification checks. Runtime prompts can then assemble the relevant entries for a task.
+Catalog entryは、stack、layer、pattern、verification checkなどを説明できる。Runtime promptやpluginは、taskに必要なentryを組み合わせる。
+
+## Repository Boundary
+
+Workyard RepositoryはUser Workspaceではない。
+
+Workyard Repository rootには、source、docs、examples、development utilityを置く。User Workspaceの形を示す場合は `examples/workspace/` に置く。
