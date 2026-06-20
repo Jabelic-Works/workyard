@@ -1,36 +1,59 @@
 # Workyard Agent Guide
 
-## Purpose
+## 目的
 
-Workyard is a generic public workspace for AI-assisted work across multiple repositories and worktrees.
+このファイルは、Workyard Repositoryを開発するAI agent向けの作業ガイドです。
 
-Agents working in this repository should keep implementation, examples, and documentation suitable for public open-source use.
+Workyardは、複数repository / worktree / AI runtimeをまたぐ作業場を作るためのOSS projectです。このrepository自体はUser Workspaceではありません。Workyard Repository、User Workspace、Example Workspace、Plugin、External Toolを混同しないでください。
 
-## Safety Rules
+用語は [docs/ubiquitous-language.md](docs/ubiquitous-language.md) を優先します。
 
-- Do not add secrets, tokens, credentials, private URLs, customer data, or organization-internal domain knowledge.
-- Do not reference private predecessor projects or internal project names.
-- Keep `.local/` out of git. It is for local clones, worktrees, run logs, and scratch data.
-- Prefer small, reviewable changes that map cleanly to a single issue.
-- Document assumptions when defining agent behavior, MCP profiles, or runtime modes.
+## 基本方針
 
-## Repository Boundaries
+- 返答とissue/PR向けの説明は原則日本語で書く。
+- public OSSとして読まれて困らない内容だけを書く。
+- private predecessor project、社内固有名、顧客情報、credential、private URL、account-specific configurationを入れない。
+- 初期段階ではIssueを増やしすぎない。必要になったら、具体的なPRや利用者アウトカムからIssueを作る。
+- 技術的な詳細は、小さなPRを書きながら決める。
 
-Workyard coordinates work in other repositories, but it should not vendor those repositories.
+## Repository Boundary
 
-Use `.local/` for disposable local state:
+Workyard Repositoryは、Workyard自体を開発するsource repositoryです。
 
-- `.local/repos/<repo-name>/`
-- `.local/worktrees/<repo-name>/<task-name>/`
-- `.local/runs/<run-id>/`
-- `.local/scratch/`
+root directoryを実利用者のUser Workspaceの形に寄せすぎないでください。User Workspaceの例が必要な場合は、`examples/`配下に置き、Example Workspaceであることを明示します。
 
-## Public Documentation
+`.local/` はlocal-onlyです。clone、worktree、run log、scratch file、generated configなどを置けますが、commitしてはいけません。
 
-Write documentation in English by default because this repository is intended for public use.
+## Plugin-first Direction
+
+Workyardはplugin-firstです。
+
+- coreは薄く保つ。
+- featureは原則pluginとして提供する。
+- External ToolそのものをPluginと呼ばない。
+- single-runtime利用者を対象から外さない。
+- user-specific dataはpublic repositoryに置かない。
+
+安定した方針はWikiに記録します。
+
+- [プラグイン優先アーキテクチャの意思決定](https://github.com/Jabelic-Works/workyard/wiki/Plugin-first-architecture-decisions)
+
+## Issue / PR Discipline
+
+- 1 PRは小さく、reviewしやすくする。
+- Issue titleは、技術作業ではなく利用者や開発者のアウトカムを表す。
+- 技術選定や内部APIの詳細は、必要になるまでIssue化しない。
+- PR descriptionには、何が変わるか、なぜ必要か、どう確認したかを書く。
+- 関連Issueがある場合はPRに `Closes #...` を入れる。
+
+## Documentation
+
+- このrepositoryの開発方針や用語は日本語で書いてよい。
+- Runtime、Plugin、External Tool、MCP、Skillなどの語は、辞書に合わせて使う。
+- Workyard Repository向けの説明とUser Workspace向けの説明を分ける。
 
 ## Verification
 
-For documentation-only changes, review rendered Markdown and check links when practical.
+documentation-only changeでは最低限 `git diff --check` を実行します。
 
-For future code changes, add repository-local checks and document them in `docs/` and task acceptance criteria.
+code changeでは、repository-localなcheckが追加された時点で、そのcheckを使います。checkが未整備の間は、PR descriptionに確認した内容を明記します。
