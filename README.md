@@ -1,45 +1,44 @@
 # Workyard
 
-Workyard is a local workspace for running AI-assisted work across many repositories, worktrees, prompts, MCP servers, and agent runtimes.
+Workyard is a local workspace for running AI-assisted work across many repositories, worktrees, prompts, MCP servers, plugins, and agent runtimes.
 
-It is designed to keep the execution workspace separate from the repositories being changed:
+このrepositoryはWorkyard自体を開発するsource repositoryです。利用者がinstall後に使うUser Workspaceそのものではありません。
 
-- cloned repositories and worktrees live under `.local/`
-- reusable agent guidance lives under `catalog/`, `prompts/`, and `agents/`
-- runtime-specific launch guidance lives under `runtimes/`
-- MCP configuration examples live under `mcp/`
-- planned work lives under `tasks/`
+User Workspaceの形は `examples/workspace/` に置き、root directoryはWorkyardの開発に必要なsource、docs、examplesを中心に保ちます。
 
 ## Status
 
-This repository is in early design. The initial goal is to define the operating model and grow the implementation incrementally through small issues.
+This repository is in early design.
+
+当面の目標は、Workyard RepositoryとUser Workspaceを混同せず、reviewしやすいPRで漸進的に実装できる状態にすることです。
 
 ## Design Principles
 
-- Keep the project generic and suitable for public open-source use.
-- Do not include private organization details, customer details, secrets, or domain-specific internal knowledge.
-- Treat target repositories as separate projects. Workyard should coordinate work without owning their source code.
-- Prefer explicit catalogs and checks over relying on an agent to infer engineering standards from scattered context.
-- Make local state disposable. Generated clones, worktrees, run logs, and scratch files belong under `.local/`.
+- public OSSとして読まれて困らないgenericなprojectにする。
+- private organization details、customer details、secret、domain-specific internal knowledgeを入れない。
+- target repositoryは別projectとして扱う。Workyardは作業をcoordinationするが、target repositoryのsource codeを所有しない。
+- agentに散らばったcontextから推測させず、catalogとcheckを明示する。
+- local stateはdisposableにする。Generated clone、worktree、run log、scratch fileは `.local/` に置く。
+- featureは原則pluggableにする。1つのruntimeだけを使う利用者も対象から外さない。
 
 ## Documentation
 
 - [ユビキタス言語](docs/ubiquitous-language.md)
+- [Operating Model](docs/operating-model.md)
+- [User Workspace Layout案](docs/workspace-layout.md)
 
 ## Repository Layout
 
 ```text
 .
-├── .local/          # local-only clones, worktrees, runs, and scratch files
-├── agents/          # reusable agent roles and behavior profiles
-├── catalog/         # agent-readable engineering catalog
-├── docs/            # operating model and project documentation
-├── mcp/             # MCP server and profile examples
-├── prompts/         # reusable prompt templates
-├── runtimes/        # runtime profiles for agent tools
-├── scripts/         # bootstrap and utility scripts
-└── tasks/           # task templates and active task notes
+├── AGENTS.md          # このrepositoryで作業するAI agent向けのguide
+├── docs/              # design noteとproject documentation
+├── examples/          # User Workspaceなどのtracked example
+├── packages/          # Workyard package source
+└── scripts/           # development / bootstrap utility
 ```
+
+`.local/` はlocal development中に存在してよいが、gitではignoreされ、commitしない。
 
 ## License
 
