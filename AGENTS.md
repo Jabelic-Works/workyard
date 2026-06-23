@@ -34,9 +34,10 @@ Workyardはplugin-firstです。
 - single-runtime利用者を対象から外さない。
 - user-specific dataはpublic repositoryに置かない。
 
-安定した方針はWikiに記録します。
+安定した方針はrepository docsまたはGitHub Discussionに記録します。Wikiは情報置き場として使いません。
 
-- [プラグイン優先アーキテクチャの意思決定](https://github.com/Jabelic-Works/workyard/wiki/Plugin-first-architecture-decisions)
+- [プラグイン優先アーキテクチャの意思決定](https://github.com/Jabelic-Works/workyard/discussions/54)
+- [プラグイン優先アーキテクチャの実装候補](https://github.com/Jabelic-Works/workyard/discussions/53)
 
 ## Issue / PR Discipline
 
